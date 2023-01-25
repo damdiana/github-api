@@ -1,0 +1,39 @@
+/* Margins */
+
+.mt-1 {
+    margin-top: 0.5em;
+}
+
+.m-1 {
+    margin: 0.5em;
+}
+
+.ml-2 {
+    margin-left: 1.2em;
+}
+
+.m-3 {
+    margin: 1.5em;
+}
+
+/* Display */
+
+.flex {
+    display: flex;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-around {
+    justify-content: space-around;
+}
