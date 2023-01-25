@@ -1,19 +1,19 @@
+@import "./utils.css";
+
 :root {
     --black: #000;
     --white: #fff;
+    --background: linear-gradient(90deg, rgba(238, 174, 202, 1) 0%, rgba(234, 175, 203, 1) 0%, rgba(148, 187, 233, 1) 100%);
+    --js: #f1e05a;
+    --html: #e34c26;
+    --css: #563d7c;
+    --typescript: #2b7489;
+
 }
 
 body {
     font-family: Oxygen, sans-serif;
-    font-size: 1em;
-    background: linear-gradient(90deg, rgba(238, 174, 202, 1) 0%, rgba(234, 175, 203, 1) 0%, rgba(148, 187, 233, 1) 100%);
-}
-
-form,
-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: var(--background);
 }
 
 input {
@@ -23,10 +23,9 @@ input {
     padding: 0.3em;
     width: 10em;
     font-size: inherit;
-
 }
 
-button {
+.submit-button {
     background-color: var(--white);
     font-size: inherit;
     border: 1px solid var(--black);
@@ -40,4 +39,71 @@ button {
 
 .textError {
     color: red;
+}
+
+.repo-card svg {
+    width: 15px;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Repo-card classes */
+
+.repo-card {
+    --card-text: #012169;
+    --card-border: grey;
+    border: 1px solid var(--card-border);
+    border-radius: 0.3em;
+    background-color: transparent;
+    color: var(--card-text);
+    padding: 1em;
+}
+
+.repo-link {
+    color: inherit;
+    font-size: 1.1em;
+}
+
+.repo-card a:hover {
+    text-decoration: underline;
+}
+
+.repo-details-style {
+    font-size: 0.8em;
+}
+
+.repo-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 3fr));
+    list-style: none;
+    padding: 0;
+}
+
+/* Languages */
+
+.lng-badge {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+}
+
+.lng-badge-JavaScript {
+    background-color: var(--js);
+}
+
+.lng-badge-HTML {
+    background-color: var(--html);
+}
+
+.lng-badge-CSS {
+    background-color: var(--css);
+}
+
+.lng-badge-TypeScript {
+    background-color: var(--typescript);
 }
