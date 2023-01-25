@@ -1,0 +1,35 @@
+:root {
+    --black: #000;
+    --white: #fff;
+}
+
+body {
+    font-family: Oxygen, sans-serif;
+    font-size: 1em;
+    background: linear-gradient(90deg, rgba(238, 174, 202, 1) 0%, rgba(234, 175, 203, 1) 0%, rgba(148, 187, 233, 1) 100%);
+}
+
+form,
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input {
+    border-radius: 0.3rem 0 0 0.3rem;
+    background-color: var(--white);
+    border: 1px solid var(--black);
+    padding: 0.3em;
+    width: 10em;
+    font-size: inherit;
+
+}
+
+button {
+    background-color: var(--white);
+    font-size: inherit;
+    border: 1px solid var(--black);
+    padding: 0.3em 0.6em;
+    border-radius: 0 0.3rem 0.3rem 0;
+}
