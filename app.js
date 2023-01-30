@@ -1,9 +1,11 @@
 let form = document.querySelector('form');
 let dinamicContent = document.querySelector('#dinamicContent');
+let skeletonScreen = document.querySelector('.skeleton-screen');
 
 form.addEventListener('submit', async function (event) {
     event.preventDefault();
     clearUI();
+    skeletonScreen.classList.toggle('hidden');
     try {
         let githubResponse = await fetchGithubRepos(form.username.value);
         if (githubResponse.ok) {
@@ -15,6 +17,7 @@ form.addEventListener('submit', async function (event) {
         console.log(err);
         displayMessage("Something went wrong. Refresh and try again!", 'textError');
     }
+    skeletonScreen.classList.toggle('hidden');
 })
 
 async function fetchGithubRepos(username) {
@@ -40,7 +43,7 @@ function displayRepos(repos) {
 
     repos.forEach(repo => {
         let li = document.createElement('li');
-        li.classList.add("repo-card", "m-3", "span-1");
+        li.classList.add("repo-card");
 
         li.innerHTML = `
         <a href="${repo.html_url}" class="repo-link"> ${repo.name} </a>
@@ -78,7 +81,6 @@ function displayRepos(repos) {
 
     dinamicContent.appendChild(ul);
 }
-
 
 function displayMessage(message, textType) {
     let paragraph = document.createElement('p');
