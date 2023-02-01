@@ -1,3 +1,5 @@
+import { fetchGithubRepos } from './GithubApi.js';
+
 let form = document.querySelector('form');
 let dinamicContent = document.querySelector('#dinamicContent');
 let skeletonScreen = document.querySelector('.skeleton-screen');
@@ -19,23 +21,6 @@ form.addEventListener('submit', async function (event) {
     }
     skeletonScreen.classList.toggle('hidden');
 })
-
-async function fetchGithubRepos(username) {
-    let resp = await fetch(`https://api.github.com/users/${username}/repos`);
-    let jsonResp = await resp.json();
-    if (resp.ok) {
-        return {
-            ok: true,
-            repos: jsonResp
-                .filter(repo => repo.private === false)
-        }
-    } else {
-        return {
-            ok: false,
-            message: jsonResp.message
-        }
-    }
-}
 
 function displayRepos(repos) {
     let ul = document.createElement('ul');
