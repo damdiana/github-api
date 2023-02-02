@@ -1,4 +1,5 @@
 @import "./utils.css";
+@import "./style/dialog.css";
 
 :root {
     --black: #000;
@@ -13,6 +14,7 @@
 body {
     font-family: Oxygen, sans-serif;
     background: var(--background);
+    box-sizing: border-box;
 }
 
 * {
@@ -44,10 +46,6 @@ input {
     color: red;
 }
 
-.repo-card svg {
-    width: 15px;
-}
-
 a {
     text-decoration: none;
 }
@@ -69,8 +67,12 @@ a {
     font-size: 1.1em;
 }
 
-.repo-card a:hover {
-    text-decoration: underline;
+.repo-card a {
+    color: var(--card-text);
+}
+
+.repo-card a:visited {
+    color: var(--card-text);
 }
 
 .repo-details-style {
@@ -83,6 +85,12 @@ a {
     list-style: none;
     padding: 0.5em;
     gap: 1.5em;
+}
+
+.repo-card__details-btn {
+    border: none;
+    background: transparent;
+    color: var(--card-text);
 }
 
 /* Languages */
