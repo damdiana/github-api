@@ -15,6 +15,10 @@ body {
     background: var(--background);
 }
 
+* {
+    box-sizing: border-box;
+}
+
 input {
     border-radius: 0.3rem 0 0 0.3rem;
     background-color: var(--white);
@@ -75,9 +79,9 @@ a {
 
 .repo-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 3fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(400px, 100%), 3fr));
     list-style: none;
-    padding: 0;
+    padding: 0.5em;
     gap: 1.5em;
 }
 
