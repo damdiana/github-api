@@ -34,27 +34,29 @@ function displayRepos(repos) {
 
         li.innerHTML = `
         <a href="${repo.html_url}" class="repo-link"> ${repo.name} </a>
-        <div class="flex justify-around mt-1">
+        <div class="repo-details__display mt-2">
             ${repo.language !== null ? (`
-                <div class="flex align-center">
+            <div class="flex align-center">
                     <span class="lng-badge lng-badge-${repo.language}"> </span>
-                    <p class="repo-details-style m-1"> ${repo.language} </p>
-                </div>
-            `) : ''}
+                    <p class="text-sm m-1"> ${repo.language} </p>
+            </div>
+            `) : '<div> </div>'}
             <div class="flex align-center">
                 <a href="https://github.com/${repo.owner.login}/${repo.name}/stargazers" type="button">
                 <i class="fa-regular fa-star"></i>
-                    <span class="repo-details-style m-1"> ${repo.stargazers_count} </span>
+                    <span class="text-sm m-1"> ${repo.stargazers_count} </span>
                 </a>
             </div>
             <div class="flex align-center">
                 <a href="https://github.com/${repo.owner.login}/${repo.name}/network/members">
                 <i class="fa-solid fa-code-fork"></i>
-                <span class="repo-details-style m-1"> ${repo.forks_count} </span>
+                <span class="text-sm m-1"> ${repo.forks_count} </span>
                 </a>
+            </div> 
+            <div class="text-center"> 
+                <button class="repo-card__details-btn">Details</button>
             </div>
-            <button class="repo-card__details-btn">Details</button>
-        </div>
+            </div>       
         `;
 
         let detailsBtn = li.querySelector('.repo-card__details-btn');

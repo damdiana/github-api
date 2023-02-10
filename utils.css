@@ -16,6 +16,10 @@
     margin-left: 1.2em;
 }
 
+.mt-2 {
+    margin-top: 1em;
+}
+
 /* Display */
 
 .flex {
@@ -36,6 +40,10 @@
 
 .justify-around {
     justify-content: space-around;
+}
+
+.justify-between {
+    justify-content: space-between;
 }
 
 .justify-end {

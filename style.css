@@ -75,7 +75,12 @@ a {
     color: var(--card-text);
 }
 
-.repo-details-style {
+.repo-details__display {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+}
+
+.text-sm {
     font-size: 0.8em;
 }
 
@@ -91,6 +96,7 @@ a {
     border: none;
     background: transparent;
     color: var(--card-text);
+    cursor: pointer;
 }
 
 /* Languages */
