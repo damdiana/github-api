@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
     <title>github-api</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style/style.css">
     <script src="https://kit.fontawesome.com/dd8dd681ac.js" crossorigin="anonymous"></script>
 </head>
 
@@ -20,7 +20,7 @@
         </header>
         <form class="flex align-center justify-center">
             <input name="username" type="search" placeholder="username" required>
-            <button class="submit-button" type="submit"> Submit </button>
+            <button class="btn-outline" type="submit"> Submit </button>
         </form>
         <div id="dinamicContent"> </div>
         <ul class="repo-list hidden skeleton-screen">
@@ -30,13 +30,15 @@
         </ul>
 
         <dialog class="details-dialog">
-            <form class="flex justify-end" method="dialog">
-                <button class="cancel-button" value="cancel">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+            <div class="details-dialog__content">
+                <form class="flex justify-end" method="dialog">
+                    <button class="btn" value="cancel">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
 
-            </form>
-            <div class="details-dialog__content"></div>
+                </form>
+                <div class="details-dialog__content__dynamic mt-2"></div>
+            </div>
         </dialog>
 
 

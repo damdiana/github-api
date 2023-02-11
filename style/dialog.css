@@ -5,20 +5,33 @@
     width: 40vw;
     margin: 0 0 0 auto;
     font-size: 1em;
+    padding: 0;
 }
 
 .details-dialog::backdrop {
     background: rgba(0, 0, 0, 0.5);
 }
 
-.cancel-button {
-    border: none;
-    background: transparent;
+.details-dialog__content {
+    padding: 1em;
+}
+
+.title-hover:hover {
+    display: block;
+    background-color: #f88787;
+    border-radius: 1em;
+    padding: 0.2em 0.7em;
 }
 
 dialog a,
 dialog a:visited {
     color: var(--black);
+}
+
+footer {
+    position: sticky;
+    bottom: 1px;
+    background-color: white;
 }
 
 @media screen and (max-width:800px) {
