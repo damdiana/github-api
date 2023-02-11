@@ -1,5 +1,6 @@
 @import "./utils.css";
-@import "./style/dialog.css";
+@import "./dialog.css";
+@import "./buttons.css";
 
 :root {
     --black: #000;
@@ -9,6 +10,8 @@
     --html: #e34c26;
     --css: #563d7c;
     --typescript: #2b7489;
+    --navy-text: #012169;
+
 }
 
 body {
@@ -30,14 +33,6 @@ input {
     font-size: inherit;
 }
 
-.submit-button {
-    background-color: var(--white);
-    font-size: inherit;
-    border: 1px solid var(--black);
-    padding: 0.3em 0.6em;
-    border-radius: 0 0.3rem 0.3rem 0;
-}
-
 .textWarning {
     color: yellow;
 }
@@ -50,15 +45,19 @@ a {
     text-decoration: none;
 }
 
+ul {
+    padding: 0;
+}
+
 /* Repo-card classes */
 
 .repo-card {
-    --card-text: #012169;
+    --navy-text: #012169;
     --card-border: grey;
     border: 1px solid var(--card-border);
     border-radius: 0.3em;
     background-color: transparent;
-    color: var(--card-text);
+    color: var(--navy-text);
     padding: 1em;
 }
 
@@ -68,11 +67,11 @@ a {
 }
 
 .repo-card a {
-    color: var(--card-text);
+    color: var(--navy-text);
 }
 
 .repo-card a:visited {
-    color: var(--card-text);
+    color: var(--navy-text);
 }
 
 .repo-details__display {
@@ -92,11 +91,19 @@ a {
     gap: 1.5em;
 }
 
-.repo-card__details-btn {
-    border: none;
-    background: transparent;
-    color: var(--card-text);
-    cursor: pointer;
+.page-number {
+    color: var(--navy-text);
+    font-size: 14px;
+}
+
+/* Dialog cards */
+
+.dialog-background {
+    border: 0.1em solid transparent;
+    border-radius: 0.3em;
+    padding: 0.5em;
+    background: linear-gradient(#f9a7a7, #c9cbf1);
+    box-shadow: 5px 10px 10px grey;
 }
 
 /* Languages */

@@ -32,12 +32,17 @@ async function fetchGithubCommits(owner, repo, perPage, page) {
 }
 
 async function fetchGithubIssues(owner, repo, perPage, page) {
-    let resp = await fetch(`https://api.github.com/repos/${owner}/${repo}/issues?state=all&per_page${perPage}&page=${page}`);
+    let resp = await fetch(`https://api.github.com/repos/${owner}/${repo}/issues?state=all&per_page=${perPage}&page=${page}`);
+    let hasNextPage = resp.headers.has('link') && resp.headers.get('link').includes('rel="next"');
+    let hasPreviousPage = resp.headers.has('link') && resp.headers.get('link').includes('rel="prev"');
+
     let jsonResp = await resp.json();
     if (resp.ok) {
         return {
             ok: true,
-            issues: jsonResp
+            issues: jsonResp,
+            hasNextPage,
+            hasPreviousPage
         }
     } else {
         return {
