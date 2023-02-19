@@ -1,0 +1,71 @@
+/* Margins */
+
+.m-0 {
+    margin: 0;
+}
+
+.ml-1 {
+    margin-left: 0.5em;
+}
+
+.mt-1 {
+    margin-top: 0.5em;
+}
+
+.m-1 {
+    margin: 0.5em;
+}
+
+.ml-2 {
+    margin-left: 1.2em;
+}
+
+.mt-2 {
+    margin-top: 1em;
+}
+
+.mt-4 {
+    margin-top: 2em;
+}
+
+/* Display */
+
+.flex {
+    display: flex;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-around {
+    justify-content: space-around;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-end {
+    justify-content: flex-end;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.list-none {
+    list-style-type: none;
+}

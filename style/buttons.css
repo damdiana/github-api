@@ -1,0 +1,18 @@
+.btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.btn-navy {
+    color: var(--navy-text);
+}
+
+.btn-outline {
+    background-color: var(--white);
+    font-size: inherit;
+    border: 1px solid var(--black);
+    padding: 0.3em 0.6em;
+    border-radius: 0 0.3rem 0.3rem 0;
+    cursor: pointer;
+}

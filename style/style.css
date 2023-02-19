@@ -1,0 +1,160 @@
+@import "./utils.css";
+@import "./dialog.css";
+@import "./buttons.css";
+
+:root {
+    --black: #000;
+    --white: #fff;
+    --background: linear-gradient(90deg, rgba(238, 174, 202, 1) 0%, rgba(234, 175, 203, 1) 0%, rgba(148, 187, 233, 1) 100%);
+    --js: #f1e05a;
+    --html: #e34c26;
+    --css: #563d7c;
+    --typescript: #2b7489;
+    --navy-text: #012169;
+
+}
+
+body {
+    font-family: Oxygen, sans-serif;
+    background: var(--background);
+    box-sizing: border-box;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+input {
+    border-radius: 0.3rem 0 0 0.3rem;
+    background-color: var(--white);
+    border: 1px solid var(--black);
+    padding: 0.3em;
+    width: 10em;
+    font-size: inherit;
+}
+
+.textWarning {
+    color: yellow;
+}
+
+.textError {
+    color: red;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    padding: 0;
+}
+
+/* Repo-card classes */
+
+.repo-card {
+    --navy-text: #012169;
+    --card-border: grey;
+    border: 1px solid var(--card-border);
+    border-radius: 0.3em;
+    background-color: transparent;
+    color: var(--navy-text);
+    padding: 1em;
+}
+
+.repo-link {
+    color: inherit;
+    font-size: 1.1em;
+}
+
+.repo-card a {
+    color: var(--navy-text);
+}
+
+.repo-card a:visited {
+    color: var(--navy-text);
+}
+
+.repo-details__display {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+}
+
+.text-sm {
+    font-size: 0.8em;
+}
+
+.repo-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(400px, 100%), 3fr));
+    list-style: none;
+    padding: 0.5em;
+    gap: 1.5em;
+}
+
+.page-number {
+    color: var(--navy-text);
+    font-size: 14px;
+}
+
+/* Dialog cards */
+
+.dialog-background {
+    border: 0.1em solid transparent;
+    border-radius: 0.3em;
+    padding: 0.5em;
+    background: linear-gradient(#f9a7a7, #c9cbf1);
+    box-shadow: 5px 10px 10px grey;
+}
+
+/* Languages */
+
+.lng-badge {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+}
+
+.lng-badge-JavaScript {
+    background-color: var(--js);
+}
+
+.lng-badge-HTML {
+    background-color: var(--html);
+}
+
+.lng-badge-CSS {
+    background-color: var(--css);
+}
+
+.lng-badge-TypeScript {
+    background-color: var(--typescript);
+}
+
+/* skeleton screen */
+
+.repo-card--skeleton {
+    height: 80px;
+    border: none;
+    cursor: progress;
+    background:
+        linear-gradient(0.25turn, transparent, #fff, transparent),
+        linear-gradient(#ccc, #ccc),
+        radial-gradient(38px circle at 19px 19px, #ccc 50%, transparent 51%),
+        linear-gradient(#ccc, #ccc);
+    background-repeat: no-repeat;
+    background-position: -315px 0, 0 0, 0px 190px, 50px 195px;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    to {
+        background-position: 315px 0, 0 0, 0 190px, 50px 195px;
+    }
+}
+
+.hidden {
+    display: none;
+}
