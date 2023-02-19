@@ -1,8 +1,20 @@
-import { fetchGithubIssues, fetchGithubRepos } from './GithubApi.js';
-import { formatDateTime } from './utils.js';
+import { fetchGithubIssues, fetchGithubRepos, GithubIssue, GithubRepo } from './GithubApi';
+import { formatDateTime } from './utils';
 
 let form = document.querySelector('form');
-let dialog = document.querySelector('.details-dialog');
+if (form === null) {
+    let errorMessage = "There's no form in the page!";
+    alert(errorMessage);
+    throw new Error(errorMessage);
+}
+
+let dialog: HTMLDialogElement | null = document.querySelector('.details-dialog');
+if (dialog === null) {
+    let errorMessage = "There's no dialog in the page!";
+    alert(errorMessage);
+    throw new Error(errorMessage);
+}
+
 let dialogContent = dialog.querySelector('.details-dialog__content__dynamic');
 let dinamicContent = document.querySelector('#dinamicContent');
 let skeletonScreen = document.querySelector('.skeleton-screen');
@@ -15,16 +27,18 @@ dialog.addEventListener('click', (event) => {
     // the event.target will reference this <div>. But if we click outside, it will reference the dialog itself. 
     // Thus, the if statement below is what we need to detect when to close the dialog.
     if (event.target === dialog) {
-        dialog.close();
+        (event.target as HTMLDialogElement).close();
     };
 })
 
 form.addEventListener('submit', async function (event) {
     event.preventDefault();
     clearUI();
-    skeletonScreen.classList.toggle('hidden');
+    if (skeletonScreen !== null) {
+        skeletonScreen.classList.toggle('hidden');
+    }
     try {
-        let githubResponse = await fetchGithubRepos(form.username.value);
+        let githubResponse = await fetchGithubRepos((event.currentTarget as HTMLFormElement).username.value);
         if (githubResponse.ok) {
             displayRepos(githubResponse.repos);
         } else {
@@ -34,10 +48,12 @@ form.addEventListener('submit', async function (event) {
         console.log(err);
         displayMessage("Something went wrong. Refresh and try again!", 'textError');
     }
-    skeletonScreen.classList.toggle('hidden');
+    if (skeletonScreen !== null) {
+        skeletonScreen.classList.toggle('hidden');
+    }
 })
 
-function displayRepos(repos) {
+function displayRepos(repos: GithubRepo[]) {
     let ul = document.createElement('ul');
     ul.classList.add('repo-list');
 
@@ -73,17 +89,22 @@ function displayRepos(repos) {
         `;
 
         let detailsBtn = li.querySelector('.repo-card__details-btn');
-        detailsBtn.addEventListener('click', () => {
-            displayDialog(repo);
-        })
+        if (detailsBtn !== null) {
+            detailsBtn.addEventListener('click', () => {
+                displayDialog(repo);
+            })
+        }
+
 
         ul.appendChild(li);
     });
 
-    dinamicContent.appendChild(ul);
+    if (dinamicContent !== null) {
+        dinamicContent.appendChild(ul);
+    }
 }
 
-function displayIssues(issues, htmlElement) {
+function displayIssues(issues: GithubIssue[], htmlElement: HTMLElement) {
     htmlElement.innerHTML = "";
     let ul = document.createElement('ul');
     let descendingIssuesByCreatedDate = [...issues].sort((a, b) => {
@@ -114,18 +135,21 @@ function displayIssues(issues, htmlElement) {
         </div> 
         `;
 
-        let titleElement = li.querySelector('.issue-title');
-        // We are using 'innerText' for this because we have titles that
-        // contain <aside>/<main> and using 'innerHTML' will actually create an element
-        // in the page, element that it's not suppose to be there
-        titleElement.innerText = issue.title;
+        let titleElement: HTMLElement | null = li.querySelector('.issue-title');
+        if (titleElement !== null) {
+            // We are using 'innerText' for this because we have titles that
+            // contain <aside>/<main> and using 'innerHTML' will actually create an element
+            // in the page, element that it's not suppose to be there
+            titleElement.innerText = issue.title;
+        }
+
 
         ul.appendChild(li);
     })
     htmlElement.appendChild(ul);
 }
 
-function displayPaginationControls(hasPreviousPage, hasNextPage, onPrevious, onNext, pageNumber, htmlElement) {
+function displayPaginationControls(hasPreviousPage: boolean, hasNextPage: boolean, onPrevious: () => any, onNext: () => any, pageNumber: number, htmlElement: HTMLElement) {
     let footer = document.createElement('footer');
     footer.classList.add('text-center');
 
@@ -148,19 +172,24 @@ function displayPaginationControls(hasPreviousPage, hasNextPage, onPrevious, onN
     htmlElement.appendChild(footer);
 }
 
-function displayMessage(message, textType) {
+function displayMessage(message: string, textType: string) {
     let paragraph = document.createElement('p');
     paragraph.innerText = message;
     paragraph.classList.add(textType);
-    dinamicContent.appendChild(paragraph);
+    if (dinamicContent !== null) {
+        dinamicContent.appendChild(paragraph);
+    }
 }
 
 function clearUI() {
-    dinamicContent.innerHTML = '';
+    if (dinamicContent !== null) {
+        dinamicContent.innerHTML = '';
+    }
 }
 
-async function displayDialog(repo) {
-    dialogContent.innerHTML = `
+async function displayDialog(repo: GithubRepo) {
+    if (dialogContent !== null) {
+        dialogContent.innerHTML = `
         <h2 class="text-center"> ${repo.name} </h2>
         <div class="dialog__repo-card flex flex-wrap justify-around">
             <p class="m-0"> 
@@ -187,30 +216,42 @@ async function displayDialog(repo) {
         <div class="issue-container">
         </div>
         `;
-    dialog.showModal();
-
-    fetchAndRenderIssues(repo.owner.login, repo.name, 5, 1);
+    }
+    if (dialog !== null) {
+        dialog.showModal();
+        fetchAndRenderIssues(dialog, repo.owner.login, repo.name, 5, 1);
+    }
 }
 
-function displayLoading(htmlElement) {
+function displayLoading(htmlElement: HTMLElement) {
     htmlElement.innerHTML = 'Loading...';
 }
 
 
-async function fetchAndRenderIssues(repoOwner, repoName, perPage, page) {
-    displayLoading(dialog.querySelector(".issue-container"));
-    let response = await fetchGithubIssues(repoOwner, repoName, perPage, page)
-    displayIssues(
-        response.issues,
-        dialog.querySelector(".issue-container"),
+async function fetchAndRenderIssues(dialog: HTMLDialogElement, repoOwner: string, repoName: string, perPage: number, page: number) {
+    let issueContainer: HTMLElement | null = dialog.querySelector(".issue-container");
+    if (issueContainer === null) {
+        throw new Error("Tried rendering issues but found no parent where to insert them.");
+    }
 
-    );
-    displayPaginationControls(
-        response.hasPreviousPage,
-        response.hasNextPage,
-        () => fetchAndRenderIssues(repoOwner, repoName, perPage, page - 1),
-        () => fetchAndRenderIssues(repoOwner, repoName, perPage, page + 1),
-        page,
-        dialog.querySelector(".issue-container"),
-    )
+    displayLoading(issueContainer);
+    let response = await fetchGithubIssues(repoOwner, repoName, perPage, page)
+    if (response.ok === true) {
+        displayIssues(
+            response.issues,
+            issueContainer,
+
+        );
+        displayPaginationControls(
+            response.hasPreviousPage,
+            response.hasNextPage,
+            () => fetchAndRenderIssues(dialog, repoOwner, repoName, perPage, page - 1),
+            () => fetchAndRenderIssues(dialog, repoOwner, repoName, perPage, page + 1),
+            page,
+            issueContainer,
+        )
+    } else {
+        issueContainer.innerHTML = `<p>${response.message} </p>`
+    }
+
 }
