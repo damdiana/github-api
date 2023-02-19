@@ -1,4 +1,4 @@
-function formatDateTime(date) {
+function formatDateTime(date: Date) {
     let formatter = new Intl.DateTimeFormat("en-GB", {
         year: "numeric",
         month: "numeric",
