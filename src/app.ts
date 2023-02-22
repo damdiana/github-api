@@ -1,6 +1,8 @@
 import { fetchGithubIssues, fetchGithubRepos, GithubIssue, GithubRepo } from './GithubApi';
 import { formatDateTime } from './utils';
 
+import './style/style.css';
+
 let form = document.querySelector('form');
 if (form === null) {
     let errorMessage = "There's no form in the page!";

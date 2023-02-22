@@ -1,7 +1,8 @@
 const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+const devMode = process.env.NODE_ENV !== "production";
 module.exports = {
   entry: './src/app.ts',
   module: {
@@ -10,6 +11,13 @@ module.exports = {
         test: /\.ts$/,
         use: 'ts-loader',
         exclude: /node_modules/,
+      },
+      {
+        test: /\.css$/i,
+        use: [
+          devMode ? "style-loader" : MiniCssExtractPlugin.loader,
+          "css-loader"
+        ],
       },
     ],
   },
@@ -21,17 +29,13 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   devServer: {
+    hot: true,
     static: './dist',
-    watchFiles: ['src/style/*.css', 'index.html'],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
-    new CopyPlugin({
-      patterns: [
-        { from: "src/style", to: "style/" },
-      ],
-    }),
+    ...(devMode ? [] : [new MiniCssExtractPlugin()])
   ],
 };
