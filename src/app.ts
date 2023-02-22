@@ -1,4 +1,4 @@
-import { fetchGithubIssues, fetchGithubRepos, GithubIssue, GithubRepo } from './GithubApi';
+import { fetchGithubIssues, fetchGithubRepos, GithubIssue, GithubRepo, GithubCommits, fetchGithubCommits } from './GithubApi';
 import { formatDateTime } from './utils';
 
 import './style/style.css';
@@ -215,14 +215,18 @@ async function displayDialog(repo: GithubRepo) {
                 <a href="https://github.com/${repo.owner.login}/${repo.name}/stargazers" type="button">
                 <span class="text-bold"> Stars: </span>
                 <span> ${repo.stargazers_count} </span>
-                </a>
+            </a>
         </div>
         <div class="flex align-center">
                 <a href="https://github.com/${repo.owner.login}/${repo.name}/network/members">
                 <span class="text-bold"> Forks: </span>
                 <span"> ${repo.forks_count} </span>
-                </a>
+            </a>
         </div>
+        </div>
+        <div class="tabs flex"> 
+            <button id="btn-issues" class="btn tab tab--active "> Issues </button>
+            <button id="btn-commits" class="btn tab"> Commits </button>
         </div>
         <div class="issue-container">
         </div>
@@ -231,6 +235,7 @@ async function displayDialog(repo: GithubRepo) {
     if (dialog !== null) {
         dialog.showModal();
         fetchAndRenderIssues(dialog, repo.owner.login, repo.name, 5, 1);
+        setupTabs(dialog, repo.owner.login, repo.name, 5);
     }
 }
 
@@ -258,6 +263,104 @@ async function fetchAndRenderIssues(dialog: HTMLDialogElement, repoOwner: string
             response.hasNextPage,
             () => fetchAndRenderIssues(dialog, repoOwner, repoName, perPage, page - 1),
             () => fetchAndRenderIssues(dialog, repoOwner, repoName, perPage, page + 1),
+            page,
+            issueContainer,
+        )
+    } else {
+        issueContainer.innerHTML = `<p>${response.message} </p>`
+    }
+
+}
+
+function setupTabs(htmlElement: HTMLDialogElement, repoOwner: string, repoName: string, perPage: number) {
+    let btnIssues: HTMLButtonElement | null = document.querySelector('#btn-issues');
+    let btnCommits: HTMLButtonElement | null = document.querySelector('#btn-commits');
+
+    if (btnCommits !== null) {
+        btnCommits.addEventListener('click', () => {
+            if (btnCommits?.classList.contains('tab--active')) {
+                return;
+            }
+            btnCommits?.classList.add('tab--active');
+            btnIssues?.classList.remove('tab--active');
+            fetchAndRenderCommits(htmlElement, repoOwner, repoName, perPage, 1);
+        });
+    }
+
+    if (btnIssues !== null) {
+        btnIssues.addEventListener('click', () => {
+            if (btnIssues?.classList.contains('tab--active')) {
+                return;
+            }
+            btnIssues?.classList.add('tab--active');
+            btnCommits?.classList.remove('tab--active');
+            fetchAndRenderIssues(htmlElement, repoOwner, repoName, perPage, 1);
+        });
+
+    }
+}
+
+function displayCommits(commits: GithubCommits[], htmlElement: HTMLElement) {
+    htmlElement.innerHTML = "";
+    let ul = document.createElement('ul');
+    let descendingCommitsByDate = [...commits].sort((a, b) => {
+        let timestampA = new Date(a.commit.author.date).getTime();
+        let timestampB = new Date(b.commit.author.date).getTime();
+        return timestampB - timestampA;
+    })
+
+    descendingCommitsByDate.forEach(commit => {
+        let li = document.createElement('li');
+        li.classList.add("list-none", "mt-4");
+
+        li.innerHTML = `
+        <div class="dialog-background"> 
+            <a href='${commit.html_url}' target='_blank' class="title-hover">
+                <span class="text-bold">
+                👉🏻 Title:
+                </span>
+                <span class="commit-title"></span>
+            </a>
+            <p> <span class="text-bold"> 👩🏻‍💻 Author: </span> ${commit.commit.author.name} </p>
+            <p> <span class="text-bold"> 📅 Date: </span> ${formatDateTime(new Date(commit.commit.author.date))} </p>
+        </div>
+        `;
+
+        let titleElement: HTMLElement | null = li.querySelector('.commit-title');
+        if (titleElement !== null) {
+            // We are using 'innerText' for this because we have titles that
+            // contain <aside>/<main> and using 'innerHTML' will actually create an element
+            // in the page, element that it's not suppose to be there
+            titleElement.innerText = commit.commit.message;
+            console.log(commit);
+        }
+
+        ul.appendChild(li);
+    })
+    htmlElement.appendChild(ul);
+
+
+}
+
+async function fetchAndRenderCommits(dialog: HTMLDialogElement, repoOwner: string, repoName: string, perPage: number, page: number) {
+    let issueContainer: HTMLElement | null = dialog.querySelector(".issue-container");
+    if (issueContainer === null) {
+        throw new Error("Tried rendering issues but found no parent where to insert them.");
+    }
+
+    displayLoading(issueContainer);
+    let response = await fetchGithubCommits(repoOwner, repoName, perPage, page)
+    if (response.ok === true) {
+        displayCommits(
+            response.commits,
+            issueContainer,
+
+        );
+        displayPaginationControls(
+            response.hasPreviousPage,
+            response.hasNextPage,
+            () => fetchAndRenderCommits(dialog, repoOwner, repoName, perPage, page - 1),
+            () => fetchAndRenderCommits(dialog, repoOwner, repoName, perPage, page + 1),
             page,
             issueContainer,
         )
