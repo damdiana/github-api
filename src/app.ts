@@ -106,18 +106,19 @@ function displayRepos(repos: GithubRepo[]) {
 
 function displayIssues(issues: GithubIssue[], htmlElement: HTMLElement) {
     htmlElement.innerHTML = "";
-    let ul = document.createElement('ul');
-    let descendingIssuesByCreatedDate = [...issues].sort((a, b) => {
-        let timestampA = new Date(a.created_at).getTime();
-        let timestampB = new Date(b.created_at).getTime();
-        return timestampB - timestampA;
-    })
+    if (issues.length !== 0) {
+        let ul = document.createElement('ul');
+        let descendingIssuesByCreatedDate = [...issues].sort((a, b) => {
+            let timestampA = new Date(a.created_at).getTime();
+            let timestampB = new Date(b.created_at).getTime();
+            return timestampB - timestampA;
+        })
 
-    issues.forEach(issue => {
-        let li = document.createElement('li');
-        li.classList.add("list-none", "mt-4");
+        issues.forEach(issue => {
+            let li = document.createElement('li');
+            li.classList.add("list-none", "mt-4");
 
-        li.innerHTML = `
+            li.innerHTML = `
         <div class="dialog-background"> 
         <a href='${issue.html_url}' target='_blank' class="title-hover">
             <span class="text-bold">
@@ -135,19 +136,27 @@ function displayIssues(issues: GithubIssue[], htmlElement: HTMLElement) {
         </div> 
         `;
 
-        let titleElement: HTMLElement | null = li.querySelector('.issue-title');
-        if (titleElement !== null) {
-            // We are using 'innerText' for this because we have titles that
-            // contain <aside>/<main> and using 'innerHTML' will actually create an element
-            // in the page, element that it's not suppose to be there
-            titleElement.innerText = issue.title;
-        }
+            let titleElement: HTMLElement | null = li.querySelector('.issue-title');
+            if (titleElement !== null) {
+                // We are using 'innerText' for this because we have titles that
+                // contain <aside>/<main> and using 'innerHTML' will actually create an element
+                // in the page, element that it's not suppose to be there
+                titleElement.innerText = issue.title;
+            }
 
 
-        ul.appendChild(li);
-    })
-    htmlElement.appendChild(ul);
+            ul.appendChild(li);
+        })
+        htmlElement.appendChild(ul);
+    } else {
+        htmlElement.innerHTML = `
+        <div class="dialog-background mt-4"> 
+        <p class="text-center"> There are no issues for this repo 🤷🏻‍♂️ </p>
+        </div>
+        `;
+    }
 }
+
 
 function displayPaginationControls(hasPreviousPage: boolean, hasNextPage: boolean, onPrevious: () => any, onNext: () => any, pageNumber: number, htmlElement: HTMLElement) {
     let footer = document.createElement('footer');
