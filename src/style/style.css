@@ -158,3 +158,23 @@ ul {
 .hidden {
     display: none;
 }
+
+.tabs>* {
+    width: 100%;
+    margin: 1em 0;
+    padding: 1em 0;
+}
+
+.tab {
+    font-size: inherit;
+    border-bottom: 3px solid grey;
+}
+
+.tab:hover {
+    background: #efefef;
+    border-radius: 0.6em;
+}
+
+.tab--active {
+    border-bottom: 3px solid #f9a7a7;
+}

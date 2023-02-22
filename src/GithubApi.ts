@@ -29,6 +29,17 @@ type GithubIssue = {
     state: string;
 }
 
+type GithubCommits = {
+    commit: {
+        message: string;
+        author: {
+            name: string;
+            date: string;
+        };
+    }
+    html_url: string;
+}
+
 async function fetchGithubRepos(username: string): Promise<{
     ok: true;
     repos: GithubRepo[]
@@ -53,15 +64,30 @@ async function fetchGithubRepos(username: string): Promise<{
     }
 }
 
-async function fetchGithubCommits(owner: string, repo: string, perPage: number, page: number) {
+async function fetchGithubCommits(owner: string, repo: string, perPage: number, page: number): Promise<{
+    ok: true;
+    commits: GithubCommits[];
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+} | {
+    ok: false;
+    message: string;
+}> {
     let resp = await fetch(`https://api.github.com/repos/${owner}/${repo}/commits?per_page=${perPage}&page=${page}`);
-    let jsonResp = await resp.json();
+    let linkHeader = resp.headers.get('link');
+    let hasNextPage = linkHeader !== null && linkHeader.includes('rel="next"');
+    let hasPreviousPage = linkHeader !== null && linkHeader.includes('rel="prev"');
+
     if (resp.ok) {
+        let commits: GithubCommits[] = await resp.json();
         return {
             ok: true,
-            commits: jsonResp
+            commits,
+            hasNextPage,
+            hasPreviousPage
         }
     } else {
+        let jsonResp = await resp.json();
         return {
             ok: false,
             message: jsonResp.message
@@ -123,5 +149,6 @@ export {
     fetchGithubRepo,
     fetchGithubRepos,
     GithubRepo,
-    GithubIssue
+    GithubIssue,
+    GithubCommits
 }
