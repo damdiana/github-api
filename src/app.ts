@@ -240,7 +240,9 @@ async function displayDialog(repo: GithubRepo) {
 }
 
 function displayLoading(htmlElement: HTMLElement) {
-    htmlElement.innerHTML = 'Loading...';
+    htmlElement.innerHTML = `<div class="loader">
+    <div class="spinner"></div>
+  </div>`;
 }
 
 
