@@ -1,6 +1,7 @@
 @import "./utils.css";
 @import "./dialog.css";
 @import "./buttons.css";
+@import "./loader.css";
 
 :root {
     --black: #000;
