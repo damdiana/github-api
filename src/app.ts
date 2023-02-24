@@ -116,7 +116,7 @@ function displayIssues(issues: GithubIssue[], htmlElement: HTMLElement) {
             return timestampB - timestampA;
         })
 
-        issues.forEach(issue => {
+        descendingIssuesByCreatedDate.forEach(issue => {
             let li = document.createElement('li');
             li.classList.add("list-none", "mt-4");
 
